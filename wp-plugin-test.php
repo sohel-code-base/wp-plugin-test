@@ -9,26 +9,35 @@
  * Author URI: https://www.linkedin.com/in/mdsohelrana1994/
  * License: GPLv2 or later
  * License URI: #
- * Test Domain: wpplugin
+ * Test Domain: sample-plugin
  * Domain Path: /languages
  */
 
-function wpplugin_settings_page()
+function sample_plugin_settings_page()
 {
     add_menu_page(
-        'Plugin Name',
-        'Plugin Name(Short)',
+        __('Sample Plugin', 'sample-plugin'),
+        __('SP', 'sample-plugin'),
         'manage_options',
         'sample-plugin',
-        'wpplugin_settings_page_markup',
+        'sample_plugin_settings_page_markup',
         'dashicons-wordpress-alt',
         100
     );
+    add_submenu_page(
+            'sample-plugin',
+            __('Sample Plugin Feature1', 'sample-plugin'),
+            __('SPF1', 'sample-plugin'),
+        'manage_options',
+        'sample-plugin-feature-1',
+        'sample_plugin_settings_subpage_markup'
+    );
+
 }
 
-add_action('admin_menu', 'wpplugin_settings_page');
+add_action('admin_menu', 'sample_plugin_settings_page');
 
-function wpplugin_settings_page_markup()
+function sample_plugin_settings_page_markup()
 {
     if ( ! current_user_can('manage_options')){
         return;
@@ -39,4 +48,19 @@ function wpplugin_settings_page_markup()
         <h1><?php esc_html_e( 'Some Content' ); ?></h1>
     </div>
     <?php
+}
+
+function sample_plugin_settings_subpage_markup()
+{
+    if ( ! current_user_can('manage_options'))
+    {
+        return;
+    }
+    ?>
+    <div class="wrap">
+        <h1><?php esc_html_e( get_admin_page_title() ); ?></h1>
+        <h1><?php esc_html_e( 'Some Content For Feature 1' ); ?></h1>
+    </div>
+    <?php
+
 }
